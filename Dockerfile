@@ -1,4 +1,4 @@
-FROM ubuntu
+FROM ubuntu:18.04
 
 ENV TIMEZONE Asia/Yerevan
 ENV DEBIAN_FRONTEND=noninteractive
@@ -18,6 +18,5 @@ RUN apt-get update && apt-get install -y \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY . ./
-
 
 CMD ["python3", "run.py"]

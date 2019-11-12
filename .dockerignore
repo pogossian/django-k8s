@@ -1,4 +1,7 @@
 .kube
+.kube_jobs
 .dockerignore
 Dockerfile
 .vscode
+.git
+.gitignore
