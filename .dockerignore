@@ -1,0 +1,4 @@
+.kube
+.dockerignore
+Dockerfile
+.vscode
