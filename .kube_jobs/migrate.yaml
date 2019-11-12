@@ -1,4 +1,3 @@
-
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -9,7 +8,9 @@ spec:
       containers:
         - name: django-project-name
           image: pogossian/django-k8s:1.0.4
-          command: ['python3', 'manage.py', 'createsuperuser2', '--username', 'admin', '--password', '1234', '--noinput', '--email', "'blank@email.com'"]
+          command: ['python3', 'manage.py', 'migrate']
+          command: ['python3', 'manage.py', 'makemigrations']
+          command: ['python3', 'manage.py', 'migrate']
           env:
             - name: django_db_user
               valueFrom:
