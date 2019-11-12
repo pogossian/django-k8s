@@ -20,6 +20,4 @@ RUN apt-get update && apt-get install -y \
 COPY . ./
 
 
-EXPOSE 8000
-
 CMD ["python3", "run.py"]

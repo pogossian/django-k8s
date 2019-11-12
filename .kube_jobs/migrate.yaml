@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
         - name: django-project-name
-          image: pogossian/django-k8s:1.0.4
+          image: pogossian/django-k8s:1.0.5
           command: ['python3', 'manage.py', 'migrate']
           command: ['python3', 'manage.py', 'makemigrations']
           command: ['python3', 'manage.py', 'migrate']
