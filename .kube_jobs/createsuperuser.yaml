@@ -10,7 +10,7 @@ spec:
       containers:
         - name: django-project-name
           image: pogossian/django-k8s:1.0.4
-          command: ['python3', 'manage.py', 'createsuperuser', '--username', 'admin', '--password', '1234', '--noinput', '--email', "'blank@email.com'"]
+          command: ['python3', 'manage.py', 'shell', '-c', "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'admin@example.com', 'pass')"]
           env:
             - name: django_db_user
               valueFrom:
