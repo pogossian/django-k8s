@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: django-project-name-job-createsuperuser
+spec:
+  template:
+    spec:
+      containers:
+        - name: django-project-name
+          image: pogossian/django-k8s:1.0.4
+          command: ['python3', 'manage.py', 'createsuperuser2', '--username', 'admin', '--password', '1234', '--noinput', '--email', "'blank@email.com'"]
+          env:
+            - name: django_db_user
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: user
+            - name: django_db_pass
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+            - name: django_db_engine
+              value: django.db.backends.mysql
+            - name: django_db_name
+              value: db
+            - name: django_db_host
+              value: db
+            - name: django_db_port
+              value: "3306"
+      restartPolicy: Never
+  backoffLimit: 5
