@@ -85,6 +85,12 @@ DATABASES = {
     }
 }
 
+# REDIS
+REDIS_URL = "redis://{host}:{port}/1".format(
+    host=os.getenv('django_redis_host'),
+    port=os.getenv('django_redis_port', '6379')
+)
+
 
 
 # Password validation
