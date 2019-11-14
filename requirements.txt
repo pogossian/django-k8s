@@ -2,3 +2,5 @@ django
 mysqlclient
 redis
 django-redis
+celery
+django-health-check
