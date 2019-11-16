@@ -24,7 +24,6 @@ def is_open():
 def check_port():
     while True:
         if is_open():
-            subprocess.call(['python3', 'manage.py', 'migrate'])
             subprocess.call(['python3', 'manage.py', 'runserver', '0.0.0.0:8000'])
         else:
             time.sleep(delay)
