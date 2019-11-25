@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
         - name: django-project-name
-          image: pogossian/django-k8s:1.0.10 # image should contain migratins directories
+          image: pogossian/django-k8s:1.0.10
           command: ["/bin/sh","-c"]
           args: ["python3 manage.py makemigrations && python3 manage.py migrate"]
           env:
