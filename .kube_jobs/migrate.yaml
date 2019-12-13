@@ -10,7 +10,7 @@ spec:
         - name: django-project-name
           image: pogossian/django-k8s:1.0.10
           command: ["/bin/sh","-c"]
-          args: ["python3 manage.py makemigrations && python3 manage.py migrate"]
+          args: ["bash migrate.sh"]
           env:
             - name: django_db_user
               valueFrom:
