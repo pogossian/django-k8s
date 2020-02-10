@@ -1,0 +1,3 @@
+name: projectName
+sources:
+- https://github.com/pogossian/django-k8s

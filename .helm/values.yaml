@@ -1,0 +1,13 @@
+name: projectname
+container:
+  image: pogossian/django-k8s
+  tag: 2.0.3
+wwwreplicas: 3
+db:
+  engine: django.db.backends.mysql
+  name: db
+  host: db
+  user: cm9vdA==
+  password: MTIzNA==
+domain: projectname.hyperspace.cloud
+djangosecretkey: 1$rp+!-5#k4jlgde-c%c(3ju9v10fe(3ygp_f)z_#p8rjl(rf&

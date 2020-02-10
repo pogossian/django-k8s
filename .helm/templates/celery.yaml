@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-worker-{{ .Values.name }}
+  namespace: django-{{ .Values.name }}
+  labels:
+    app: celery-worker-{{ .Values.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: celery-worker-{{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: celery-worker-{{ .Values.name }}
+    spec:
+      containers:
+      - name: celery-worker-{{ .Values.name }}
+        image: {{ .Values.container.image }}:{{ .Values.container.tag }}
+        imagePullPolicy: "Always"
+        env:
+          - name: django_db_user
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: user
+          - name: django_db_pass
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: password
+          - name: django_db_engine
+            value: {{ .Values.db.engine }}
+          - name: django_db_name
+            value: {{ .Values.db.name }}
+          - name: django_db_host
+            value: {{ .Values.db.host }}
+          - name: django_db_port
+            value: "3306"
+          - name: django_redis_host
+            value: redis-{{ .Values.name }}-service
+          - name: django_redis_port
+            value: "6379"
+          - name: global_project_name
+            value: {{ .Values.name }}
+          - name: project_domain
+            value: {{ .Values.domain }}
+          - name: django_secret_key
+            value: {{ .Values.djangosecretkey }}
+        command: ["/bin/sh","-c"]
+        args: ["celery -A $(global_project_name) worker -l info"]
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery-beat-{{ .Values.name }}
+  namespace: django-{{ .Values.name }}
+  labels:
+    app: celery-beat-{{ .Values.name }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: celery-beat-{{ .Values.name }}
+  template:
+    metadata:
+      labels:
+        app: celery-beat-{{ .Values.name }}
+    spec:
+      containers:
+      - name: celery-beat-{{ .Values.name }}
+        image: {{ .Values.container.image }}:{{ .Values.container.tag }}
+        imagePullPolicy: "Always"
+        env:
+          - name: django_db_user
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: user
+          - name: django_db_pass
+            valueFrom:
+              secretKeyRef:
+                name: db-credentials
+                key: password
+          - name: django_db_engine
+            value: {{ .Values.db.engine }}
+          - name: django_db_name
+            value: {{ .Values.db.name }}
+          - name: django_db_host
+            value: {{ .Values.db.host }}
+          - name: django_db_port
+            value: "3306"
+          - name: django_redis_host
+            value: redis-{{ .Values.name }}-service
+          - name: django_redis_port
+            value: "6379"
+          - name: global_project_name
+            value: {{ .Values.name }}
+          - name: project_domain
+            value: {{ .Values.domain }}
+          - name: django_secret_key
+            value: {{ .Values.djangosecretkey }}
+        command: ["/bin/sh","-c"]
+        args: ["celery -A $(global_project_name) beat -l info"]

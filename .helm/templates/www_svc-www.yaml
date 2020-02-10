@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: django-project-name
-  namespace: django-project-name
+  name: django-{{ .Values.name }}
+  namespace: django-{{ .Values.name }}
   labels:
-    app: django-project-name
+    app: django-{{ .Values.name }}
 spec:
-  replicas: 3
+  replicas: {{ .Values.wwwreplicas }}
   selector:
     matchLabels:
-      app: django-project-name
+      app: django-{{ .Values.name }}
   template:
     metadata:
       labels:
-        app: django-project-name
+        app: django-{{ .Values.name }}
     spec:
       containers:
-      - name: django-project-name
-        image: pogossian/django-k8s:1.0.10
+      - name: django-{{ .Values.name }}
+        image: {{ .Values.container.image }}:{{ .Values.container.tag }}
         imagePullPolicy: "Always"
         env:
           - name: django_db_user
@@ -31,17 +31,23 @@ spec:
                 name: db-credentials
                 key: password
           - name: django_db_engine
-            value: django.db.backends.mysql
+            value: {{ .Values.db.engine }}
           - name: django_db_name
-            value: db
+            value: {{ .Values.db.name }}
           - name: django_db_host
-            value: db
+            value: {{ .Values.db.host }}
           - name: django_db_port
             value: "3306"
           - name: django_redis_host
-            value: redis-project-name-service
+            value: redis-{{ .Values.name }}-service
           - name: django_redis_port
             value: "6379"
+          - name: global_project_name
+            value: "{{ .Values.name }}"
+          - name: project_domain
+            value: {{ .Values.domain }}
+          - name: django_secret_key
+            value: {{ .Values.djangosecretkey }}
         ports:
         - containerPort: 8000
 
@@ -51,16 +57,16 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: django-project-name-service
-  namespace: django-project-name
+  name: django-{{ .Values.name }}-service
+  namespace: django-{{ .Values.name }}
   labels:
-    app: django-project-name
+    app: django-{{ .Values.name }}
 spec:
   ports:
   - port: 80
     protocol: TCP
     targetPort: 8000
   selector:
-    app: django-project-name
+    app: django-{{ .Values.name }}
   type: LoadBalancer
   

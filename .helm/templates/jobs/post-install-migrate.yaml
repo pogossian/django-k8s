@@ -1,0 +1,47 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: django-{{ .Values.name }}-job-migrate
+  namespace: django-{{ .Values.name }}
+  annotations:
+    "helm.sh/hook": post-install
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec:
+  template:
+    spec:
+      containers:
+        - name: django-{{ .Values.name }}
+          image: {{ .Values.container.image }}:{{ .Values.container.tag }}
+          command: ["/bin/sh","-c"]
+          args: ["bash migrate.sh"]
+          env:
+            - name: django_db_user
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: user
+            - name: django_db_pass
+              valueFrom:
+                secretKeyRef:
+                  name: db-credentials
+                  key: password
+            - name: django_db_engine
+              value: {{ .Values.db.engine }}
+            - name: django_db_name
+              value: {{ .Values.db.name }}
+            - name: django_db_host
+              value: {{ .Values.db.host }}
+            - name: django_db_port
+              value: "3306"
+            - name: django_redis_host
+              value: redis-{{ .Values.name }}-service
+            - name: django_redis_port
+              value: "6379"
+            - name: global_project_name
+              value: {{ .Values.name }}
+            - name: project_domain
+              value: {{ .Values.domain }}
+            - name: django_secret_key
+              value: {{ .Values.djangosecretkey }}
+      restartPolicy: Never
+  backoffLimit: 5

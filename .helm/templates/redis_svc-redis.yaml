@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redis-project-name
-  namespace: django-project-name
+  name: redis-{{ .Values.name }}
+  namespace: django-{{ .Values.name }}
   labels:
-    app: redis-project-name
+    app: redis-{{ .Values.name }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: redis-project-name
+      app: redis-{{ .Values.name }}
   template:
     metadata:
       labels:
-        app: redis-project-name
+        app: redis-{{ .Values.name }}
     spec:
       containers:
-      - name: redis-project-name
+      - name: redis-{{ .Values.name }}
         image: redis
         resources:
           requests:
@@ -30,15 +30,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: redis-project-name-service
-  namespace: django-project-name
+  name: redis-{{ .Values.name }}-service
+  namespace: django-{{ .Values.name }}
   labels:
-    app: redis-project-name
+    app: redis-{{ .Values.name }}
 spec:
   ports:
   - port: 6379
     protocol: TCP
     targetPort: 6379
   selector:
-    app: redis-project-name
+    app: redis-{{ .Values.name }}
   type: ClusterIP

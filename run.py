@@ -1,8 +1,10 @@
 import socket
 import time
 import subprocess
+import os
 
-ip = 'db'
+
+ip = os.getenv('django_db_host')
 port = 3306
 delay = 3
 timeout = 1
