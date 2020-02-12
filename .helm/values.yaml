@@ -1,7 +1,7 @@
 name: projectname
 container:
   image: pogossian/django-k8s
-  tag: 2.0.7
+  tag: 2.0.8
 wwwreplicas: 3
 db:
   engine: django.db.backends.mysql
