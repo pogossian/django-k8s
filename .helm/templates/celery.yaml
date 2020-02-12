@@ -48,6 +48,8 @@ spec:
             value: {{ .Values.domain }}
           - name: django_secret_key
             value: {{ .Values.djangosecretkey }}
+          - name: C_FORCE_ROOT
+            value: "true"
         command: ["/bin/sh","-c"]
         args: ["celery -A $(global_project_name) worker -l info"]
 
