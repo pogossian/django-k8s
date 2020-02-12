@@ -50,6 +50,16 @@ spec:
             value: {{ .Values.djangosecretkey }}
         ports:
         - containerPort: 8000
+        readinessProbe:
+          tcpSocket:
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        livenessProbe:
+          tcpSocket:
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
 
 
 ---
@@ -69,4 +79,3 @@ spec:
   selector:
     app: django-{{ .Values.name }}
   type: LoadBalancer
-  
