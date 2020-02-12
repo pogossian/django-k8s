@@ -1,3 +1,6 @@
+cp -r ./ ../job_root/
+cd ../job_root/
+
 folders=(
     # apps name that should be migrate
 )

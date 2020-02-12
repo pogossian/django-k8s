@@ -1,5 +1,4 @@
-.kube
-.kube_jobs
+.helm
 .dockerignore
 Dockerfile
 .vscode
